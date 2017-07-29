@@ -11,9 +11,9 @@ config :logger, level: :warn
 
 # Configure your database
 config :help_on, HelpOn.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "help_on_test",
+  adapter: Ecto.Adapters.MySQL,
+  username: "root",
+  password: "root",
+  database: "test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

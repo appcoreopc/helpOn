@@ -35,9 +35,9 @@ config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
 config :help_on, HelpOn.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "help_on_dev",
+  adapter: Ecto.Adapters.MySQL,
+  username: "root",
+  password: "root",
+  database: "test",
   hostname: "localhost",
   pool_size: 10

@@ -22,7 +22,7 @@ defmodule HelpOn.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", HelpOn do
-  #   pipe_through :api
-  # end
+   scope "/api", HelpOn do
+     pipe_through :api
+   end
 end
