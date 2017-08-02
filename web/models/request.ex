@@ -14,7 +14,7 @@ defmodule HelpOn.Request do
     field :serviceRating, :integer
     field :customerFeedback, :string
     field :type, :integer
-    field :providerId, :integer
+    field :provider, :integer
     #belongs_to :name, HelpOn.RequestType
     #belongs_to :provider, HelpOn.Provider
 
