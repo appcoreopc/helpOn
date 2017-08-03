@@ -4,9 +4,17 @@ defmodule HelpOn.RequestProvider do
    import Poison
 
    def getService(id) do 
-       service = HelpOn.Repo.get(Request, id)
-       if service != nil do 
-          service
-        end 
+       case HelpOn.Repo.get(Request, id) do
+       nil -> nil 
+       request -> request
+       end 
    end 
+
+   def getAllService() do 
+       case HelpOn.Repo.all(Request) do
+       nil -> nil 
+       request -> request
+       end 
+   end 
+
 end 
