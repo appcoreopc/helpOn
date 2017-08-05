@@ -13,7 +13,7 @@ defmodule HelpOn.PageController do
     #conn  |> put_flash(:info, "Welcome to Phoenix, from flash info!")
     #|> put_flash(:error, "Let's pretend we have an error.")
     #|> render("index.html")
-    #render conn, "index.html"
+    render conn, "index.html"
 
     #IO.inspect conn.req_headers
     #IO.inspect conn
@@ -22,7 +22,7 @@ defmodule HelpOn.PageController do
 
     #render conn, "index.html", users: users
     #render conn, users: users
-    json conn, to_string Poison.Encoder.encode(users, [])
+    #json conn, to_string Poison.Encoder.encode(users, [])
 
     #json conn, %{id: 1}
 

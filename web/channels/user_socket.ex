@@ -2,8 +2,9 @@ defmodule HelpOn.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", HelpOn.RoomChannel
-
+  channel "room:*", HelpOn.RoomChannel
+  channel "market:*", HelpOn.RoomChannel2
+  
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
   # transport :longpoll, Phoenix.Transports.LongPoll
