@@ -8,6 +8,8 @@ defmodule HelpOn.PageController do
     import Ecto.Query
     import Poison
 
+    #IO.inspect conn
+
     users = HelpOn.Repo.all(from u in User, select: u.name)
 
     #conn  |> put_flash(:info, "Welcome to Phoenix, from flash info!")

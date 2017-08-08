@@ -48,15 +48,6 @@ def handleRequest(conn, %{"id" => id }) do
    providerType = Integer.parse(params["provider"])
    provider = elem(providerType, 0)
 
-  
-   #json(conn, %{body: params})    
-
-   # %{"dateCreated" =>  dateCreated, "priority" => priority, "description" => description, 
-   #"details" => details, "mobileNo" => mobileNo, "email" => email, "contact" => contact, "address" => address, 
-   #"status" => status, "state" => state, "serviceRating" => serviceRating, "customerFeedback" => customerFeedback  }
-   #[:dateCreated, :priority, :description, :details, :mobileNo, :email, :contact, :address, :status, :serviceRating, :customerFeedback]
-
-  
    case HelpOn.Repo.insert %HelpOn.Request{"dateCreated":  params["dateCreated"], "priority":  priority, "description": params["description"], 
    "details":  params["details"], "mobileNo": params["mobileNo"], "email":  params["email"], "contact":  params["contact"], "address":  params["address"], 
    "status": status, "serviceRating": serviceRating, "customerFeedback": params["customerFeedback"], 
@@ -64,12 +55,6 @@ def handleRequest(conn, %{"id" => id }) do
      {:ok, struct} -> json conn, %{message: "Record successfully inserted"}
      {:error, changeset} -> json conn, %{message: "Error inserting record"}
    end
-
-   #case HelpOn.Repo.insert(%Requests{params}) 
-   # do 
-   #  {:ok, struct} -> json conn, %{message: "Record successfully inserted"}
-   #  {:error, changeset} -> json conn, %{message: "Error inserting record"}
-   #end
 
   end 
 
@@ -85,8 +70,39 @@ def handleRequest(conn, %{"id" => id }) do
     json conn,  %{messsage: "No record found."}
   end 
 
-  def updateRequest(conn) do 
-    json conn, %{id: 1}
-  end 
+  def updateRequest(conn, params) do 
 
+    element = Integer.parse(params["id"])
+    dataRecord = RequestProvider.getService(elem(element, 0))
+
+    if dataRecord != nil do 
+
+      elementPriority = Integer.parse(params["priority"])
+      priority = elem(elementPriority, 0)
+
+      elementServiceRating = Integer.parse(params["serviceRating"])
+      serviceRating = elem(elementServiceRating, 0)
+
+      elementStatus = Integer.parse(params["status"])
+      status = elem(elementStatus, 0)
+
+      elementType = Integer.parse(params["type"])
+      requesttype = elem(elementType, 0)
+
+      providerType = Integer.parse(params["provider"])
+      provider = elem(providerType, 0)
+
+      dataRecord = Ecto.Changeset.change dataRecord, "dateCreated":  params["dateCreated"], "priority": priority, "description": params["description"], 
+   "details":  params["details"], "mobileNo": params["mobileNo"], "email":  params["email"], "contact":  params["contact"], "address":  params["address"], 
+   "status": status, "serviceRating": serviceRating, "customerFeedback": params["customerFeedback"], 
+   "type": requesttype, "provider": provider
+
+    case HelpOn.Repo.update dataRecord do 
+     {:ok, struct} -> json conn, %{message: "Record successfully updated."}
+     {:error, changeset} -> json conn, %{message: "Error inserting record"}
+      end
+    end
+  end
 end
+
+
