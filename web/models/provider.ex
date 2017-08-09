@@ -12,7 +12,6 @@ defmodule HelpOn.Provider do
     field :active, :integer
     field :startOperation, Ecto.Time
     field :closeOperation, Ecto.Time
-
     timestamps()
   end
 

@@ -1,4 +1,5 @@
-defmodule HelpOn.Provider do 
+defmodule HelpOn.ProviderService do 
+
   alias HelpOn.Provider
   import Poison
   import Ecto.Query
@@ -17,16 +18,21 @@ defmodule HelpOn.Provider do
        end 
    end 
 
+
+
+
+
    def createRequest(conn, params) do 
     
     providerType = Integer.parse(params["provider"])
     provider = elem(providerType, 0)
 
-    HelpOn.Repo.insert %HelpOn.Provider{"dateCreated":  params["dateCreated"], "name": params["name"], 
+    HelpOn.Repo.insert %HelpOn.Provider {"dateCreated":  params["dateCreated"], "name": params["name"], 
     "email":  params["email"], "mobileNo": params["mobileNo"], "rating": params["rating"], 
     "location": params["locaton"], "contactPerson":  params["contactPerson"], 
     "active": params["active"], "startOperation": params["startOperation"], 
     "closeOperation": params["closeOperation"]} 
+
    end
 
    def deleteRequest(id) do 
