@@ -4,105 +4,62 @@ defmodule HelpOn.RequestController do
   alias HelpOn.User
   import Poison
   import Ecto.Query
-
-@doc """
+  
+  @doc """
   Handles service request for GET request.
   """
-def handleRequest(conn, %{"id" => id }) do 
-    
+  def handleRequest(conn, %{"id" => id }) do 
     #users = HelpOn.Repo.all(from u in User, select: { u.name, u.email})
     #IO.inspect users
     #render conn, "request.html", %{requestType: requestType, id: id}
     element = Integer.parse(id)
     dataRecord = RequestProvider.getService(elem(element, 0))
     data = HelpOn.EctoHelper.strip_meta(dataRecord)
-
-    IO.inspect data
-
-    if dataRecord != nil do
+    
+    if dataRecord != nil && data != nil do
       Poison.encode!(data)
-      #json conn, to_string Poison.Encoder.encode(dataRecord, [])
       json conn,  data
     else 
       json conn,  %{messsage: "No record found."}
     end
   end  
-
+  
   @doc """
   Create a new service request
   """
   def createRequest(conn, params) do 
-   
-   elementPriority = Integer.parse(params["priority"])
-   priority = elem(elementPriority, 0)
-
-   elementServiceRating = Integer.parse(params["serviceRating"])
-   serviceRating = elem(elementServiceRating, 0)
-
-   elementStatus = Integer.parse(params["status"])
-   status = elem(elementStatus, 0)
-
-   elementType = Integer.parse(params["type"])
-   requesttype = elem(elementType, 0)
-
-   providerType = Integer.parse(params["provider"])
-   provider = elem(providerType, 0)
-
-   case HelpOn.Repo.insert %HelpOn.Request{"dateCreated":  params["dateCreated"], "priority":  priority, "description": params["description"], 
-   "details":  params["details"], "mobileNo": params["mobileNo"], "email":  params["email"], "contact":  params["contact"], "address":  params["address"], 
-   "status": status, "serviceRating": serviceRating, "customerFeedback": params["customerFeedback"], 
-   "type": requesttype, "provider": provider} do 
-     {:ok, struct} -> json conn, %{message: "Record successfully inserted"}
-     {:error, changeset} -> json conn, %{message: "Error inserting record"}
-   end
-
-  end 
-
-  def cancelRequest(conn, %{"id" => id}) do 
-    element = Integer.parse(id)
-    dataRecord = RequestProvider.getService(elem(element, 0))
-    if dataRecord != nil do 
-      case HelpOn.Repo.delete(dataRecord) do 
-       {:ok, struct} -> json conn, %{messsage: "Record successfully removed."}
-       {:error, changeste} -> json conn, %{messsage: "Record remove failed."}
-      end
+    case RequestProvider.createRequest(conn, params) do 
+      {:ok, struct} -> json conn, %{message: "Record successfully inserted"}
+      {:error, changeset} -> json conn, %{message: "Error inserting record"}
     end
+  end 
+  
+  def cancelRequest(conn, %{"id" => id}) do
+    element = Integer.parse(id)    
+    try do 
+      case RequestProvider.deleteRequest(elem(element, 0)) do
+        {:ok, struct} -> json conn, %{messsage: "Record successfully removed."}
+        {:error, changeset} -> json conn, %{messsage: "Record remove failed."}
+        nil -> json conn, %{message: "Unable find record to update."}
+      end
+    rescue 
+      RuntimeError -> json conn, %{message: "Unable find error to update."}
+      Ecto.NoPrimaryKeyFieldError -> json conn, %{message: "Unable find error to update."}
+    end 
     json conn,  %{messsage: "No record found."}
   end 
-
+  
   def updateRequest(conn, params) do 
-
-    element = Integer.parse(params["id"])
-    dataRecord = RequestProvider.getService(elem(element, 0))
-
-    if dataRecord != nil do 
-
-      elementPriority = Integer.parse(params["priority"])
-      priority = elem(elementPriority, 0)
-
-      elementServiceRating = Integer.parse(params["serviceRating"])
-      serviceRating = elem(elementServiceRating, 0)
-
-      elementStatus = Integer.parse(params["status"])
-      status = elem(elementStatus, 0)
-
-      elementType = Integer.parse(params["type"])
-      requesttype = elem(elementType, 0)
-
-      providerType = Integer.parse(params["provider"])
-      provider = elem(providerType, 0)
-
-      dataRecord = Ecto.Changeset.change dataRecord, "dateCreated":  params["dateCreated"], "priority": priority, "description": params["description"], 
-   "details":  params["details"], "mobileNo": params["mobileNo"], "email":  params["email"], "contact":  params["contact"], "address":  params["address"], 
-   "status": status, "serviceRating": serviceRating, "customerFeedback": params["customerFeedback"], 
-   "type": requesttype, "provider": provider
-
-    case HelpOn.Repo.update dataRecord do 
-     {:ok, struct} -> json conn, %{message: "Record successfully updated."}
-     {:error, changeset} -> json conn, %{message: "Error inserting record"}
+    try do 
+      element = Integer.parse(params["id"])
+      case RequestProvider.updateRequest(elem(element, 0), params) do 
+        {:ok, struct} -> json conn, %{message: "Record successfully updated."}
+        {:error, changeset} -> json conn, %{message: "Error inserting record"}
+        nil -> json conn, %{message: "Unable find record to update."}
       end
-    end
+    rescue 
+      e in RuntimeError  -> json conn, %{message: "opsss.."}
+      e in Ecto.NoPrimaryKeyFieldError -> json conn, %{message: "Unable find error to update."}
+    end 
   end
 end
-
-
