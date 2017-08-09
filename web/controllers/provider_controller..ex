@@ -1,4 +1,4 @@
-defmodule HelpOn.RequestController do
+defmodule HelpOn.ProviderController do
   use HelpOn.Web, :controller
   alias HelpOn.RequestProvider
   alias HelpOn.User
