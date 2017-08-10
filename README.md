@@ -3,10 +3,9 @@
 An app that allows customer to send adhoc service request when their homes needs a bit of help like plumbings, electrical works and locks. 
 Customer mobile number are never reveal and location details are hidden until an appointment has been made.
 
-#h1 Security access arrangement. 
+Security access arrangement. 
 
-Details of service technician (photos, id, name) can be validated by security personnel. 
-
+Details of service technician (photos, id, name, vechical number) can be validated by security personnel. 
 
 To start your Phoenix app:
 
