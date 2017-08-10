@@ -1,5 +1,10 @@
 # HelpOn
 
+An app that allows customer to send adhoc service request when their homes needs a bit of help like plumbings, electrical works and locks. 
+Customer mobile number are never reveal and location details are hidden until an appointment has been made.
+
+
+
 To start your Phoenix app:
 
   * Install dependencies with `mix deps.get`
