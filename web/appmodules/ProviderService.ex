@@ -44,17 +44,28 @@ defmodule HelpOn.ProviderService do
    end 
 
    def updateRequest(id, params) do 
+
      dataRecord = getService(id)
 
     if dataRecord != nil do 
-    
-      dataRecord = Ecto.Changeset.change "dateCreated":  params["dateCreated"], "name": params["name"], 
-    "email":  params["email"], "mobileNo": params["mobileNo"], "rating": params["rating"], 
-    "location": params["locaton"], "contactPerson":  params["contactPerson"], 
-    "active": params["active"], "startOperation": params["startOperation"], 
-    "closeOperation": params["closeOperation"]
+
+      providerRating = Integer.parse(params["rating"])
+      rating = elem(providerRating, 0)
+
+      startTime = Ecto.Time.cast params["startOperation"]
+      start = elem(startTime, 1)
+
+      closeTime = Ecto.Time.cast params["closeOperation"]
+      close = elem(closeTime, 1)
+
+      dataRecord = Ecto.Changeset.change dataRecord, "dateCreated":  params["dateCreated"], "name": params["name"], 
+    "email":  params["email"], "mobileNo": params["mobileNo"], "rating": rating, 
+    "location": params["location"], "contactPerson":  params["contactPerson"], 
+    "active": params["active"], "startOperation": start, 
+    "closeOperation": close
 
       HelpOn.Repo.update dataRecord 
+
     end
    end
 end 
