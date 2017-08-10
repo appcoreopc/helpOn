@@ -18,20 +18,21 @@ defmodule HelpOn.ProviderService do
        end 
    end 
 
-
-
-
-
-   def createRequest(conn, params) do 
+  def createRequest(conn, params) do 
     
-    providerType = Integer.parse(params["provider"])
-    provider = elem(providerType, 0)
+    providerRating = Integer.parse(params["rating"])
+    rating = elem(providerRating, 0)
 
-    HelpOn.Repo.insert %HelpOn.Provider {"dateCreated":  params["dateCreated"], "name": params["name"], 
-    "email":  params["email"], "mobileNo": params["mobileNo"], "rating": params["rating"], 
-    "location": params["locaton"], "contactPerson":  params["contactPerson"], 
-    "active": params["active"], "startOperation": params["startOperation"], 
-    "closeOperation": params["closeOperation"]} 
+    startTime = Ecto.Time.cast params["startOperation"]
+    start = elem(startTime, 1)
+
+    closeTime = Ecto.Time.cast params["closeOperation"]
+    close = elem(closeTime, 1)
+
+    HelpOn.Repo.insert %HelpOn.Provider {"dateCreated": Ecto.DateTime.utc, "name": params["name"], 
+    "email":  params["email"], "mobileNo": params["mobileNo"], "rating": rating, 
+    "location": params["location"], "contactPerson":  params["contactPerson"], 
+    "active": params["active"], "startOperation": start, "closeOperation": close } 
 
    end
 
