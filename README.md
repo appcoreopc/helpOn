@@ -3,6 +3,8 @@
 An app that allows customer to send adhoc service request when their homes needs a bit of help like plumbings, electrical works and locks. 
 Customer mobile number are never reveal and location details are hidden until an appointment has been made.
 
+Security access arrangement will be made with local security. 
+Details of service technician (photos, id, name) can be verified by security personnel. 
 
 
 To start your Phoenix app:
